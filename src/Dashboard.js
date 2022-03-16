@@ -1,5 +1,5 @@
 import React from 'react';
-import { getUser, removeUser } from './Utils/Common';
+import { removeUser } from './Utils/Common';
 
 function Dashboard(props) {
   

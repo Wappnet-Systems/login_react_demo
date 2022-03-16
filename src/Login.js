@@ -8,30 +8,27 @@ function Login(props) {
   
   const { register, handleSubmit, errors } = useForm();
 
-  const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
   // handle button click of login form
   const handleLogin = (data) => {
     setError(null);
-    setLoading(true);
     axios.post('http://192.168.0.105:1111/api/v1/auth/signin', data).then(response => {
-      setLoading(false);
       setUser(response.data._token);
       props.history.push('/dashboard');
     }).catch(error => {
-      setLoading(false);
       console.log("====",error.response);
       if (error.response && error.response.status === 401) setError(error.response.data.error);
+      else if (error.response && error.response.status === 400) setError(error.response.data.error);
       else setError("Something went wrong. Please try again later.");
     });
   }
 
   return (
     <div>
-      Login<br /><br />
-      {error && <><small style={{ color: 'red' }}>{error}</small><br /></>}<br />
       <div className="login-form">
+        <strong>Login Here</strong><br /><br />
+        {error && <><small style={{ color: 'red' }}>{error}</small><br /></>}<br />
       <form onSubmit={handleSubmit(handleLogin)} noValidate>
         <label htmlFor="inputEmail">Username</label>
         <input
